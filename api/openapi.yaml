@@ -1,0 +1,136 @@
+openapi: 3.0.1
+info:
+  title: Chatter
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: Auth
+paths:
+  /auth/login:
+    post:
+      deprecated: false
+      parameters: []
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            example:
+              provider: email
+              payload:
+                email: justin@chattersocial.io
+                password: password
+            schema:
+              properties:
+                provider:
+                  enum:
+                  - email
+                  - apple
+                  - google
+                  - twitter
+                  - facebook
+                  type: string
+                  x-apidog:
+                    enumDescriptions:
+                      email: Email & Password login
+                      apple: Social Login
+                      google: Social Login
+                      twitter: Social Login
+                      facebook: Social Login
+                payload:
+                  $ref: '#/components/schemas/_auth_login_payload'
+              required:
+              - payload
+              - provider
+              type: object
+              x-apidog-orders:
+              - provider
+              - payload
+              x-apidog-ignore-properties: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+                x-apidog-ignore-properties: []
+                x-apidog-orders: []
+          description: OK
+      security: []
+      summary: Login
+      tags:
+      - Auth
+      x-apidog-folder: Auth
+      x-apidog-status: developing
+      x-run-in-apidog: https://apidog.com/web/project/423252/apis/api-4863631-run
+  /auth/me:
+    get:
+      deprecated: false
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+                x-apidog-ignore-properties: []
+                x-apidog-orders: []
+          description: OK
+      security:
+      - bearer: []
+      summary: Me
+      tags:
+      - Auth
+      x-apidog-folder: Auth
+      x-apidog-status: developing
+      x-run-in-apidog: https://apidog.com/web/project/423252/apis/api-4864053-run
+components:
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+  schemas:
+    _auth_login_payload:
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+      - email
+      - password
+    inline_object:
+      properties:
+        provider:
+          enum:
+          - email
+          - apple
+          - google
+          - twitter
+          - facebook
+          type: string
+          x-apidog:
+            enumDescriptions:
+              email: Email & Password login
+              apple: Social Login
+              google: Social Login
+              twitter: Social Login
+              facebook: Social Login
+        payload:
+          $ref: '#/components/schemas/_auth_login_payload'
+      required:
+      - payload
+      - provider
+      type: object
+      x-apidog-orders:
+      - provider
+      - payload
+      x-apidog-ignore-properties: []
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      type: http
